@@ -24,11 +24,12 @@ export class ClusterService {
     return this.cluster.workers;
   }
 
-  public createWorkers(count: number): void {
+  public createWorkers(count: number, recreateOnExit = true): void {
     Array(count)
       .fill(0)
       .forEach(() => {
         const worker = this.cluster.fork();
       });
+    if (recreateOnExit) this.cluster.on('exit', () => this.cluster.fork());
   }
 }
