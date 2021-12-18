@@ -2,14 +2,6 @@ import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClusterService } from './cluster.service';
 
-interface Message<T> {
-  payload: T;
-  type: string;
-}
-
-export const MessageTypes = {
-  ClearCache: 'ClearCache',
-};
 @Injectable()
 export class MessagingService implements OnApplicationBootstrap {
   @Inject()
@@ -47,3 +39,11 @@ export class MessagingService implements OnApplicationBootstrap {
     this.eventEmitter.emit(message.type, message.payload || {});
   }
 }
+interface Message<T> {
+  payload: T;
+  type: string;
+}
+
+export const MessageTypes = {
+  ClearCache: 'ClearCache',
+};

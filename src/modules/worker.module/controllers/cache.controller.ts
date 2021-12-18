@@ -10,9 +10,8 @@ export class CacheController {
   private messaging: MessagingService;
 
   @Get('/invalidateCaches')
-  clearCache(): string {
+  clearCache(): void {
     this.messaging.send<void>(MessageTypes.ClearCache, null);
-    return 'ijjias';
   }
 
   @Get('/refreshProducts')
