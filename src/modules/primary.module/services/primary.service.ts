@@ -3,8 +3,7 @@ import { ClusterService } from 'src/modules/cluster.module/services/cluster.serv
 import { ConfigsService } from 'src/modules/utils.module/services/configs.service';
 
 @Injectable()
-export class PrimaryService implements OnApplicationBootstrap  {
-
+export class PrimaryService implements OnApplicationBootstrap {
   @Inject()
   private readonly cluster: ClusterService;
 

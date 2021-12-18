@@ -6,6 +6,6 @@ import { ClusterService } from './services/cluster.service';
   imports: [],
   controllers: [],
   providers: [MessagingService, ClusterService],
-  exports: [MessagingService, ClusterService]
+  exports: [MessagingService, ClusterService],
 })
 export class ClusterModule {}

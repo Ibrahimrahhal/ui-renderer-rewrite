@@ -5,6 +5,6 @@ import { ConfigsService } from './services/configs.service';
   imports: [],
   controllers: [],
   providers: [ConfigsService],
-  exports: [ConfigsService]
+  exports: [ConfigsService],
 })
 export class UtilsModule {}
