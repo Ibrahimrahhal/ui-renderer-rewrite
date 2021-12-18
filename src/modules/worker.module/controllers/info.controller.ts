@@ -1,14 +1,25 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  GoneException,
+  Inject,
+  Query,
+} from '@nestjs/common';
+import { GenericService } from 'src/modules/utils.module/services/generic.service';
 
 @Controller()
-export class CacheController {
+export class InfoController {
+  @Inject()
+  private genericService: GenericService;
+
   @Get('/version')
-  rendererVersion(): string {
-    return 'This action returns all cats';
+  rendererVersion(): { version: string } {
+    const { version } = this.genericService.appInfo;
+    return { version };
   }
 
   @Get('/info')
-  styleguideInfo(): string {
-    return 'cleared';
+  styleguideInfo(@Query('p') productName, @Query('v') release): string {
+      throw new GoneException('styleguide.info is deprecated');
   }
 }

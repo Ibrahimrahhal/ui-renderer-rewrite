@@ -1,14 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Inject, Query } from '@nestjs/common';
+import { StyleguideService } from '../services/styleguide.service';
 
 @Controller()
-export class CacheController {
+export class ReleaseController {
+  
+  @Inject()
+  private styleguide: StyleguideService;
+
   @Get('/releases')
-  releasesList(): string {
-    return 'This action returns all cats';
+  releasesList(): string[] {
+    return this.styleguide.releases;
   }
 
   @Get('/release/products')
-  productsList(): string {
+  productsList(@Query('v') release): string {
+    if(!release) throw new BadRequestException('v param is required');
     return 'cleared';
   }
 
