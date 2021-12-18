@@ -12,6 +12,6 @@ export class PrimaryService implements OnApplicationBootstrap {
 
   onApplicationBootstrap() {
     const workerCounts = parseInt(this.configs.readConfig('PUG_THREADS', 1));
-    this.cluster.isPrimary && this.cluster.createWorkers(workerCounts);
+    this.cluster.createWorkers(workerCounts);
   }
 }
