@@ -1,9 +1,14 @@
+require('dotenv').config()
 import { NestFactory } from '@nestjs/core';
 import { PrimaryModule } from './modules/primary.module';
-require('dotenv').config()
+import { WorkerModule } from './modules/worker.module';
+import { ClusterService } from './modules/cluster.module/services/cluster.service';
 
-async function bootstrap() {
-  const app = await NestFactory.create(PrimaryModule);
-  await app.listen(3000);
-}
-bootstrap();
+(async () => {
+  if(ClusterService.isPrimary) {
+    const primary = await NestFactory.create(PrimaryModule);
+  } else {
+    const worker = await NestFactory.create(WorkerModule);
+    await worker.listen(3000);
+  }
+})();
