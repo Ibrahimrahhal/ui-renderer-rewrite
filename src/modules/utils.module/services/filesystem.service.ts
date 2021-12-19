@@ -13,18 +13,26 @@ export class FileSystemService {
   }
 
   public listFilesInDirectory(path: string): string[] {
-      return fs.readdirSync(path)
+    return fs.readdirSync(path);
   }
 
   public fileExist(path: string): boolean {
-      return fs.existsSync(path);
+    return fs.existsSync(path);
   }
 
   public isDirectory(path: string): boolean {
+    try {
       return fs.statSync(path).isDirectory();
+    } catch {
+      return false;
+    }
+  }
+
+  public resolveRealPath(path: string): string {
+    return fs.realpathSync(path);
   }
 
   public resolveFullPath(...relativePath: string[]): string {
-      return path.resolve(...relativePath);
+    return path.resolve(...relativePath);
   }
 }

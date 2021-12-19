@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  GoneException,
-  Inject,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, GoneException, Inject, Query } from '@nestjs/common';
 import { GenericService } from 'src/modules/utils.module/services/generic.service';
 
 @Controller()
@@ -20,6 +14,6 @@ export class InfoController {
 
   @Get('/info')
   styleguideInfo(@Query('p') productName, @Query('v') release): string {
-      throw new GoneException('styleguide.info is deprecated');
+    throw new GoneException('styleguide.info is deprecated');
   }
 }
