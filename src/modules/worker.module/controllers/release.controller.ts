@@ -18,16 +18,16 @@ export class ReleaseController {
   }
 
   @Get('/release/products')
-  productsList(@Query('v') release): string[] {
+  productsList(@Query('v') release: string): string[] {
     if (!release) throw new BadRequestException('v param is required');
     return Object.keys(this.styleguide.loadProducts(release));
   }
 
   @Get(['/release/product/componenet/templates', '/templates'])
   templatesList(
-    @Query('p') product,
-    @Query('v') release,
-    @Query('c') component,
+    @Query('p') product: string,
+    @Query('v') release: string,
+    @Query('c') component: string,
   ): string[] {
     return this.styleguide.getExtraTemplatesForSingleWidget(
       product,

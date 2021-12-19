@@ -13,7 +13,10 @@ export class InfoController {
   }
 
   @Get('/info')
-  styleguideInfo(@Query('p') productName, @Query('v') release): string {
+  styleguideInfo(
+    @Query('p') product: string,
+    @Query('v') release: string,
+  ): string {
     throw new GoneException('styleguide.info is deprecated');
   }
 }
