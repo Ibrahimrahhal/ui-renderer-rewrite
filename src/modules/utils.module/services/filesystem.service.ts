@@ -35,4 +35,14 @@ export class FileSystemService {
   public resolveFullPath(...relativePath: string[]): string {
     return path.resolve(...relativePath);
   }
+
+  public isPathWithinAnotherPath(
+    _parentPath: string,
+    _childPath: string,
+  ): boolean {
+    const [parentPath, childPath] = [_parentPath, _childPath].map((p) =>
+      this.resolveFullPath(p),
+    );
+    return childPath.startsWith(parentPath);
+  }
 }

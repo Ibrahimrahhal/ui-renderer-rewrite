@@ -9,14 +9,18 @@ import {
 import { Response as Res } from 'express';
 import { GenericService } from 'src/modules/utils.module/services/generic.service';
 import { StaticFilesService } from '../services/static-files.service';
+import { StyleguideService } from '../services/styleguide.service';
 
 @Controller()
 export class RootController {
   @Inject()
-  private genericService: GenericService;
+  private readonly genericService: GenericService;
 
   @Inject()
-  private staticFilesService: StaticFilesService;
+  private readonly staticFilesService: StaticFilesService;
+
+  @Inject()
+  private readonly styleguide: StyleguideService;
 
   @Get('/')
   handleRootRoute(
@@ -26,17 +30,23 @@ export class RootController {
     @Query('v') release?: string,
     @Query('e') compression?: string,
     @Query('c') component?: string,
+    @Query('t') template?: string,
   ): void {
     let subRouteResponse: RootRouteSubControllerResponse<any>;
     if (release && product && resource)
-      subRouteResponse = this.handleStaticFileSubRoute(
+      subRouteResponse = this.handleGetStaticFileSubRoute(
         release,
         product,
         resource,
         compression,
       );
     else if (compression && component && product && release)
-      console.log('ass template');
+      subRouteResponse = this.handleGetTemplateFileSubRout(
+        release,
+        product,
+        component,
+        template,
+      );
     else subRouteResponse = this.handleVersionSubRout();
     response
       .set(subRouteResponse.headers)
@@ -53,7 +63,7 @@ export class RootController {
     };
   }
 
-  private handleStaticFileSubRoute(
+  private handleGetStaticFileSubRoute(
     release: string,
     product: string,
     file: string,
@@ -75,6 +85,29 @@ export class RootController {
       },
       expressHandlerName: 'sendFile',
       response: fileToRetrieve.path,
+    };
+  }
+
+  private handleGetTemplateFileSubRout(
+    release: string,
+    product: string,
+    component: string,
+    template: string,
+  ): RootRouteSubControllerResponse<string> {
+    const templateFile = this.styleguide.getTemplatePath(
+      release,
+      product,
+      component,
+      template,
+    );
+    if (!Boolean(templateFile)) throw new NotFoundException();
+    return {
+      headers: {
+        'Cache-Control': 'public, max-age=600',
+        'Resource-Path': templateFile,
+      },
+      expressHandlerName: 'sendFile',
+      response: templateFile,
     };
   }
 }

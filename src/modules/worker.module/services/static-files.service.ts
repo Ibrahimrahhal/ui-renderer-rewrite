@@ -48,6 +48,13 @@ export class StaticFilesService {
         file
       }`,
     );
+    if (
+      !this.filesystem.isPathWithinAnotherPath(
+        releasedAssetsPath,
+        fileToRetrieve,
+      )
+    )
+      fileToRetrieve = '';
     if (!this.filesystem.fileExist(fileToRetrieve)) fileToRetrieve = '';
     return {
       path: fileToRetrieve,

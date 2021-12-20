@@ -29,7 +29,7 @@ export class ReleaseController {
     @Query('v') release: string,
     @Query('c') component: string,
   ): string[] {
-    return this.styleguide.getExtraTemplatesForSingleWidget(
+    return this.styleguide.getExtraTemplatesForSingleComponent(
       product,
       release,
       component,

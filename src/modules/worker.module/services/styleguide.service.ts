@@ -86,7 +86,7 @@ export class StyleguideService {
     }, []);
   }
 
-  public getExtraTemplatesForSingleWidget(
+  public getExtraTemplatesForSingleComponent(
     product: string,
     release: string,
     component: string,
@@ -195,5 +195,32 @@ export class StyleguideService {
       })
       .map((p) => p.path)
       .reverse();
+  }
+
+  public getTemplatePath(
+    release: string,
+    product: string,
+    component: string,
+    template: string = component,
+  ): string {
+    const lookups = this.getTemplatesLookupFoldersForProduct(
+      product,
+      release,
+      component === 'structure',
+    );
+    return lookups
+      .map((path) => [
+        this.filesystem.resolveFullPath(
+          path,
+          `./${component}/templates/${component}/${template}`,
+        ),
+        this.filesystem.resolveFullPath(
+          path,
+          `./${component}/templates/${template}`,
+        ),
+      ])
+      .flat(Infinity)
+      .map((t: string) => t.concat('-tmpl.jade'))
+      .find((t: string) => this.filesystem.fileExist(t)) as string;
   }
 }
