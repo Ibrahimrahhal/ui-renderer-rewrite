@@ -5,10 +5,17 @@ import { InfoController } from './controllers/info.controller';
 import { UtilsModule } from '../utils.module';
 import { StyleguideService } from './services/styleguide.service';
 import { ReleaseController } from './controllers/release.controller';
+import { RootController } from './controllers/root.controller';
+import { StaticFilesService } from './services/static-files.service';
 
 @Module({
   imports: [ClusterModule, UtilsModule],
-  controllers: [InfoController, CacheController, ReleaseController],
-  providers: [StyleguideService],
+  controllers: [
+    InfoController,
+    CacheController,
+    ReleaseController,
+    RootController,
+  ],
+  providers: [StyleguideService, StaticFilesService],
 })
 export class WorkerModule {}

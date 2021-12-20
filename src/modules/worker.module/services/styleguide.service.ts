@@ -30,13 +30,24 @@ export class StyleguideService {
       });
   }
 
+  public getProductsPathForRelease(release: string): string {
+    return this.filesystem.resolveFullPath(
+      this.releasesDirectory,
+      `./${release}`,
+      './ui-products',
+    );
+  }
+
+  public getProductPathForRelease(release: string, product: string): string {
+    return this.filesystem.resolveFullPath(
+      this.getProductsPathForRelease(release),
+      `./${product}`,
+    );
+  }
+
   public loadProducts(release: string): { [productName: string]: string } {
     return this.loadAllProductsRecusrsive(
-      this.filesystem.resolveFullPath(
-        this.releasesDirectory,
-        release,
-        'ui-products',
-      ),
+      this.getProductsPathForRelease(release),
     )
       .filter((p) => p)
       .reduce((prev, current) => {
