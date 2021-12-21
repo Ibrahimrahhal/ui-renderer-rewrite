@@ -20,7 +20,7 @@ export class ReleaseController {
   @Get('/release/products')
   productsList(@Query('v') release: string): string[] {
     if (!release) throw new BadRequestException('v param is required');
-    return Object.keys(this.styleguide.loadProducts(release));
+    return Object.keys(this.styleguide.getProducts(release));
   }
 
   @Get(['/release/product/componenet/templates', '/templates'])

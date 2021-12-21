@@ -7,15 +7,19 @@ import { StyleguideService } from './services/styleguide.service';
 import { ReleaseController } from './controllers/release.controller';
 import { RootController } from './controllers/root.controller';
 import { StaticFilesService } from './services/static-files.service';
+import { RendererModule } from '../renderer.module';
+import { RenderController } from './controllers/render.controller';
+import { StyleGuideRenderService } from './services/styleguide-render-service';
 
 @Module({
-  imports: [ClusterModule, UtilsModule],
+  imports: [ClusterModule, UtilsModule, RendererModule],
   controllers: [
     InfoController,
     CacheController,
     ReleaseController,
     RootController,
+    RenderController,
   ],
-  providers: [StyleguideService, StaticFilesService],
+  providers: [StyleguideService, StaticFilesService, StyleGuideRenderService],
 })
 export class WorkerModule {}

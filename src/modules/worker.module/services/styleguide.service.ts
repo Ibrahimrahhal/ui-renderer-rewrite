@@ -45,8 +45,8 @@ export class StyleguideService {
     );
   }
 
-  public loadProducts(release: string): { [productName: string]: string } {
-    return this.loadAllProductsRecusrsive(
+  public getProducts(release: string): { [productName: string]: string } {
+    return this.getAllProductsRecusrsive(
       this.getProductsPathForRelease(release),
     )
       .filter((p) => p)
@@ -58,7 +58,7 @@ export class StyleguideService {
       }, {});
   }
 
-  private loadAllProductsRecusrsive(path: string): string[] {
+  private getAllProductsRecusrsive(path: string): string[] {
     if (!this.filesystem.fileExist(path)) return [];
     return this.filesystem.listFilesInDirectory(path).reduce((prev, file) => {
       const currentDirectoryFullPath = this.filesystem.resolveFullPath(
@@ -80,7 +80,7 @@ export class StyleguideService {
       if (file !== 'node_modules')
         products = [
           ...products,
-          ...this.loadAllProductsRecusrsive(currentDirectoryFullPath),
+          ...this.getAllProductsRecusrsive(currentDirectoryFullPath),
         ];
       return [...prev, ...products];
     }, []);
@@ -133,7 +133,7 @@ export class StyleguideService {
         './ui-products',
         `./${_product}`,
       );
-    else product = this.loadProducts(release)[_product];
+    else product = this.getProducts(release)[_product];
 
     const lookupFolders = [
       '/basic/',
