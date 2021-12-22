@@ -5,7 +5,7 @@ export class GlobalsService {
   public static extraGlobals: { [key: string]: any } = {};
 }
 
-export const Global = (name: string) => {
+export const Global = (name: string): MethodDecorator => {
   return function (
     target: any,
     propertyKey: string,
