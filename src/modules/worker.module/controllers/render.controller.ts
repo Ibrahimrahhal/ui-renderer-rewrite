@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Inject,
+  InternalServerErrorException,
   NotFoundException,
   Post,
   Query,
@@ -40,8 +41,8 @@ export class RenderController {
           data,
         );
       } catch (e) {
-        console.log(e.toString());
-        throw new NotFoundException();
+        if (e.toString().includes('not-found')) throw new NotFoundException();
+        throw new InternalServerErrorException(e.toString());
       }
     }
   }

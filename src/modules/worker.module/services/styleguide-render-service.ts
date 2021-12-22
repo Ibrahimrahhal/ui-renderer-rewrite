@@ -10,7 +10,6 @@ export class StyleGuideRenderService {
   private readonly styleguide: StyleguideService;
   @Inject()
   private readonly renderer: AbstractRendererService;
-
   @Inject()
   private readonly filesystem: FileSystemService;
 
@@ -24,8 +23,7 @@ export class StyleGuideRenderService {
       this.styleguide.getProductPathForRelease(release, product),
       `./${_templatePath}`,
     );
-    console.log(templatePath);
-    if (!this.filesystem.fileExist(templatePath)) throw new Error();
+    if (!this.filesystem.fileExist(templatePath)) throw new Error('not-found');
     return (
       this.renderer[this.getTemplateType(templatePath)] as Renderer
     ).render(templatePath, data);
@@ -35,4 +33,6 @@ export class StyleGuideRenderService {
     if (path.endsWith('.ejs')) return 'ejs';
     return 'pug';
   }
+
+  private handleWithInTemplateRenderCalls() {}
 }
