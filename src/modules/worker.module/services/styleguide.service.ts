@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigsService } from 'src/modules/utils.module/services/configs.service';
 import { FileSystemService } from 'src/modules/utils.module/services/filesystem.service';
+import { Cachable } from './cache.service';
 
 @Injectable()
 export class StyleguideService {
@@ -17,7 +18,8 @@ export class StyleguideService {
     );
   }
 
-  public get releases(): string[] {
+  @Cachable()
+  public getReleases(): string[] {
     if (!this.filesystem.fileExist(this.releasesDirectory)) return [];
     return this.filesystem
       .listFilesInDirectory(this.releasesDirectory)
@@ -45,6 +47,7 @@ export class StyleguideService {
     );
   }
 
+  @Cachable()
   public getProducts(release: string): { [productName: string]: string } {
     return this.getAllProductsRecusrsive(
       this.getProductsPathForRelease(release),

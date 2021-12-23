@@ -22,9 +22,4 @@ export class PrimaryService implements OnApplicationBootstrap {
     const workerCounts = parseInt(this.configs.readConfig('PUG_THREADS', 1));
     this.cluster.createWorkers(workerCounts);
   }
-
-  @OnEvent(MessageTypes.ClearCache)
-  broadcastClearCache(message) {
-    this.messaging.send<void>(message, null);
-  }
 }

@@ -14,7 +14,7 @@ export class ReleaseController {
 
   @Get('/releases')
   releasesList(): string[] {
-    return this.styleguide.releases;
+    return this.styleguide.getReleases();
   }
 
   @Get('/release/products')

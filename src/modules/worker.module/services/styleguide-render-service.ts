@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AbstractRendererService } from 'src/modules/renderer.module/services/abstract-renderer.service';
-import { Renderer } from 'src/modules/renderer.module/types/renderer';
 import { FileSystemService } from 'src/modules/utils.module/services/filesystem.service';
 import { Global } from 'src/modules/utils.module/services/globals.service';
 import { StyleguideService } from './styleguide.service';
@@ -17,7 +16,7 @@ export class StyleGuideRenderService {
   private activeProduct: string;
   private activeRelease: string;
 
-  public renderTemplateByPath(
+  public renderByPath(
     release: string,
     product: string,
     _templatePath: string,
@@ -28,21 +27,37 @@ export class StyleGuideRenderService {
       `./${_templatePath}`,
     );
     if (!this.filesystem.fileExist(templatePath)) throw new Error('not-found');
-    return (
-      this.renderer[this.getTemplateType(templatePath)] as Renderer
-    ).render(templatePath, data);
+    return this.renderer.render(templatePath, data);
   }
 
-  private getTemplateType(path: string): 'pug' | 'ejs' {
-    if (path.endsWith('.ejs')) return 'ejs';
-    return 'pug';
+  public render(
+    release: string,
+    product: string,
+    component: string,
+    template: string,
+    data: Object,
+  ): string {
+    const templatePath = this.styleguide.getTemplatePath(
+      release,
+      product,
+      component,
+      template,
+    );
+    if (!templatePath) throw new Error('not-found');
+    return this.renderer.render(templatePath, data);
   }
 
   @Global('pb.render')
-  private handleWithInTemplateRenderCalls(...args: any[]) {
+  public handleWithInTemplateRenderCalls(...args: any[]): string {
     const { component, template, data, product, release } =
       this.getInTemplateRenderCallsParams(args);
-    return '';
+    const templatePath = this.styleguide.getTemplatePath(
+      release,
+      product,
+      component,
+      template,
+    );
+    return this.renderer.render(templatePath, data);
   }
 
   private getInTemplateRenderCallsParams(args: any[] = []): {

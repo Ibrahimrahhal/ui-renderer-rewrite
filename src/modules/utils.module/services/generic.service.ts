@@ -19,6 +19,7 @@ export class GenericService {
     }
     return this.appPackageJSON;
   }
+
   @Global('pb.updateParam')
   public updateParam(uri: string, key: string, value: string): string {
     let re = new RegExp('([?&])' + key + '=.*?(&|#|$)', 'i');

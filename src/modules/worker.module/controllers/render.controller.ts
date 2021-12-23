@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   Inject,
   InternalServerErrorException,
   NotFoundException,
@@ -34,7 +33,7 @@ export class RenderController {
     );
     if (filePathToRender) {
       try {
-        return this.styleguideRenderer.renderTemplateByPath(
+        return this.styleguideRenderer.renderByPath(
           release,
           product,
           filePathToRender,
@@ -44,6 +43,19 @@ export class RenderController {
         if (e.toString().includes('not-found')) throw new NotFoundException();
         throw new InternalServerErrorException(e.toString());
       }
+    }
+
+    try {
+      return this.styleguideRenderer.render(
+        release,
+        product,
+        component,
+        template,
+        data,
+      );
+    } catch (e) {
+      if (e.toString().includes('not-found')) throw new NotFoundException();
+      throw new InternalServerErrorException(e.toString());
     }
   }
 

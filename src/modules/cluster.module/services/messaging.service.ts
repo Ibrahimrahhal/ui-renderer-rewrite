@@ -36,6 +36,7 @@ export class MessagingService implements OnApplicationBootstrap {
   }
 
   private messageHandler(message: Message<any>) {
+    console.log(message);
     this.eventEmitter.emit(message.type, message.payload || {});
   }
 }
