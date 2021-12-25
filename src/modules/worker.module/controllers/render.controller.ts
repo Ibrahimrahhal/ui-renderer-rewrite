@@ -31,6 +31,7 @@ export class RenderController {
       template,
       component,
     );
+    this.styleguideRenderer.setRenderContext(release, product);
     if (filePathToRender) {
       try {
         return this.styleguideRenderer.renderByPath(

@@ -16,6 +16,11 @@ export class StyleGuideRenderService {
   private activeProduct: string;
   private activeRelease: string;
 
+  public setRenderContext(release: string, product: string): void {
+    this.activeRelease = release;
+    this.activeProduct = product;
+  }
+  
   public renderByPath(
     release: string,
     product: string,

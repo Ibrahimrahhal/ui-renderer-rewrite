@@ -7,13 +7,11 @@ import {
 
 @Injectable()
 export class BroadCastService {
-
   @Inject()
   private readonly messaging: MessagingService;
 
-
   @OnEvent(MessageTypes.ClearCache)
   broadcastClearCache(message) {
-      this.messaging.send<void>(MessageTypes.ClearCache, null);
-    }
+    this.messaging.send<void>(MessageTypes.ClearCache, null);
+  }
 }

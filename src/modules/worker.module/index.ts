@@ -11,6 +11,8 @@ import { RendererModule } from '../renderer.module';
 import { RenderController } from './controllers/render.controller';
 import { StyleGuideRenderService } from './services/styleguide-render-service';
 import { CacheService } from './services/cache.service';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ProductTransformInterceptor } from './interceptors/product-transform.interceptor';
 
 @Module({
   imports: [ClusterModule, UtilsModule, RendererModule],
@@ -21,6 +23,15 @@ import { CacheService } from './services/cache.service';
     RootController,
     RenderController,
   ],
-  providers: [CacheService, StyleguideService, StaticFilesService, StyleGuideRenderService],
+  providers: [
+    CacheService,
+    StyleguideService,
+    StaticFilesService,
+    StyleGuideRenderService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ProductTransformInterceptor,
+    },
+  ],
 })
 export class WorkerModule {}
